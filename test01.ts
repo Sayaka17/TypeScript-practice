@@ -38,6 +38,7 @@ const person1: {
     name: 'piyo',
     age: 20
 }
+console.log(person1.age)
 
 // any型　最終手段　どんな型でも許容する あまり使用しない
 let anyValue: any = 'ppp'
