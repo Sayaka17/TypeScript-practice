@@ -13,7 +13,7 @@ import red from './assets/img/red_signal.png';
 
 function App() {
   // 現在のカラーのid, init/blue_light/yellow_light/red_light
-  const [currentColorId, setCurrentColorId] = useState('');
+  const [currentColorId, setCurrentColorId] = useState('blue_light');
   // dataset
   const [dataset, setDataset] = useState(defaultDataset);
   // 色の組み合わせ
@@ -21,7 +21,6 @@ function App() {
 
   // コンポーネントがマウント(配置)された直後に呼び出されるメソッド => ounting(マウント時)
   useEffect(() => {
-    setCurrentColorId('blue_light')
     setColorSet(dataset['init'].colorSet)
   }, [])
 
@@ -31,13 +30,13 @@ function App() {
   // colorSetを変える関数(typescriptの型付けが原因のエラーを回避するため。後で消す) 
   const changeColor = (currentColorId: string) => {
     switch (true) {
-      case (currentColorId==='blue_light'):
+      case (currentColorId === 'blue_light'):
         setColorSet(dataset["blue_light"].colorSet)
         break;
-      case (currentColorId==='red_light'):
+      case (currentColorId === 'red_light'):
         setColorSet(dataset["red_light"].colorSet)
         break;
-      case (currentColorId==='yellow_light'):
+      case (currentColorId === 'yellow_light'):
         setColorSet(dataset["yellow_light"].colorSet)
         break;
       default:
@@ -46,23 +45,32 @@ function App() {
   }
 
   // 前回の色から次の色へと信号を変える関数
+  // const setNextColor = (previousColorId: string) => {
+  //   if (previousColorId === "blue_light") {
+  //     setCurrentColorId('yellow_light')
+  //     changeColor(currentColorId)
+  //   }
+  //   else if (previousColorId === "red_light") {
+  //     setCurrentColorId('blue_light')
+  //     changeColor(currentColorId)
+  //   }
+  //   else if (previousColorId === "yellow_light") {
+  //     changeColor(currentColorId)
+  //   }
+  // }
   const setNextColor = (previousColorId: string) => {
     switch (true) {
       case (previousColorId === "blue_light"):
         setCurrentColorId('yellow_light')
         changeColor(currentColorId)
-        // setTimeout(() => changeColor(currentColorId), 1500);
-        // currentColorIdをyellow_lightに変更する
         break;
       case (previousColorId === "red_light"):
         setCurrentColorId('blue_light')
         changeColor(currentColorId)
-        // setTimeout(() => changeColor(currentColorId), 1500);
         break;
       case (previousColorId === "yellow_light"):
         setCurrentColorId('red_light')
         changeColor(currentColorId)
-        // setTimeout(() => changeColor(currentColorId), 1500);
         break;
       default:
         changeColor("init")
@@ -83,7 +91,7 @@ function App() {
           {/* <SignalBlue />
           <SignalYellow />
           <SignalRed /> */}
-          <Buttons change={changeColor} color={currentColorId} next={setNextColor}/>
+          <Buttons change={changeColor} color={currentColorId} next={setNextColor} />
         </div>
       </div>
     </div>
