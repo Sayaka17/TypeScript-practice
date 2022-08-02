@@ -21,13 +21,15 @@ function App() {
 
   // コンポーネントがマウント(配置)された直後に呼び出されるメソッド => ounting(マウント時)
   useEffect(() => {
-    setCurrentColorId('init')
+    setCurrentColorId('blue_light')
     setColorSet(dataset['init'].colorSet)
   }, [])
 
+  console.log(currentColorId)
+  // console.log(dataset[currentColorId].colorSet)
 
-  // colorSetを変える関数
-  const changeColor = (currentColorId: any) => {
+  // colorSetを変える関数(typescriptの型付けが原因のエラーを回避するため。後で消す) 
+  const changeColor = (currentColorId: string) => {
     switch (true) {
       case (currentColorId==='blue_light'):
         setColorSet(dataset["blue_light"].colorSet)
@@ -38,9 +40,34 @@ function App() {
       case (currentColorId==='yellow_light'):
         setColorSet(dataset["yellow_light"].colorSet)
         break;
+      default:
+        setColorSet(dataset["init"].colorSet)
     }
   }
 
+  // 前回の色から次の色へと信号を変える関数
+  const setNextColor = (previousColorId: string) => {
+    switch (true) {
+      case (previousColorId === "blue_light"):
+        setCurrentColorId('yellow_light')
+        changeColor(currentColorId)
+        // setTimeout(() => changeColor(currentColorId), 1500);
+        // currentColorIdをyellow_lightに変更する
+        break;
+      case (previousColorId === "red_light"):
+        setCurrentColorId('blue_light')
+        changeColor(currentColorId)
+        // setTimeout(() => changeColor(currentColorId), 1500);
+        break;
+      case (previousColorId === "yellow_light"):
+        setCurrentColorId('red_light')
+        changeColor(currentColorId)
+        // setTimeout(() => changeColor(currentColorId), 1500);
+        break;
+      default:
+        changeColor("init")
+    }
+  }
 
 
   return (
@@ -56,7 +83,7 @@ function App() {
           {/* <SignalBlue />
           <SignalYellow />
           <SignalRed /> */}
-          <Buttons change={changeColor}/>
+          <Buttons change={changeColor} color={currentColorId} next={setNextColor}/>
         </div>
       </div>
     </div>

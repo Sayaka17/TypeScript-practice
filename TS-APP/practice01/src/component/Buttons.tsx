@@ -8,9 +8,9 @@ const Buttons = (props:any) => {
         <div className='button-wrap'>
             <Stack direction="row" spacing={2}>
                 <Button variant="contained"
-                onClick={() => props.change("blue_light")}>Start</Button>
+                onClick={() => props.next(props.color)}>Start</Button>
                 <Button variant="contained" color="error"
-                onClick={() => props.change("red_light")}>Stop</Button>
+                onClick={() => props.change("init")}>Stop</Button>
             </Stack>
         </div>
     )
