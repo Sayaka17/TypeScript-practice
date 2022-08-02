@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import './App.css';
-import { SignalRed, SignalBlue, SignalYellow, Buttons, Signal, Signals } from './component/index'
+import { Buttons, Signal } from './component/index'
 import defaultDataset from './dataset';
 import black from './assets/img/black_signal.png'
 import blue from './assets/img/blue_signal.png';
@@ -18,13 +18,22 @@ function App() {
   const [dataset, setDataset] = useState(defaultDataset);
   // 色の組み合わせ
   const [colorSet, setColorSet] = useState(dataset["init"].colorSet);
+  const [flag, setFlag] = useState(false);
 
   // コンポーネントがマウント(配置)された直後に呼び出されるメソッド => ounting(マウント時)
+  // useEffect(() => {
+  //   // setColorSet(dataset['init'].colorSet)
+  //   // const setIntervalNext = setInterval(()=>setNextColor(currentColorId), 5000);
+  // }, [flag])
+
+
   useEffect(() => {
     setColorSet(dataset['init'].colorSet)
+    // changeColor(currentColorId)
   }, [])
 
   console.log(currentColorId)
+  console.log(flag)
   // console.log(dataset[currentColorId].colorSet)
 
   // colorSetを変える関数(typescriptの型付けが原因のエラーを回避するため。後で消す) 
@@ -44,32 +53,22 @@ function App() {
     }
   }
 
-  // 前回の色から次の色へと信号を変える関数
-  // const setNextColor = (previousColorId: string) => {
-  //   if (previousColorId === "blue_light") {
-  //     setCurrentColorId('yellow_light')
-  //     changeColor(currentColorId)
-  //   }
-  //   else if (previousColorId === "red_light") {
-  //     setCurrentColorId('blue_light')
-  //     changeColor(currentColorId)
-  //   }
-  //   else if (previousColorId === "yellow_light") {
-  //     changeColor(currentColorId)
-  //   }
-  // }
+  // 次の色をセットして、currentColorIdを更新する関数
   const setNextColor = (previousColorId: string) => {
     switch (true) {
       case (previousColorId === "blue_light"):
         setCurrentColorId('yellow_light')
+        // setFlag(1)
         changeColor(currentColorId)
         break;
       case (previousColorId === "red_light"):
         setCurrentColorId('blue_light')
+        // setFlag(2)
         changeColor(currentColorId)
         break;
       case (previousColorId === "yellow_light"):
         setCurrentColorId('red_light')
+        // setFlag(3)
         changeColor(currentColorId)
         break;
       default:
@@ -77,6 +76,14 @@ function App() {
     }
   }
 
+  //flagを変える関数
+const changeFlag = () => {
+  setFlag(true)
+}
+
+  // 何回もsetIntervalが実行されている？？？？？
+  // const setIntervalNext = setInterval(()=>setNextColor(currentColorId), 5000);
+  const setIntervalNext = useCallback(() => setInterval(()=>setNextColor(currentColorId), 5000),[colorSet])
 
   return (
     <div className="App">
@@ -91,7 +98,7 @@ function App() {
           {/* <SignalBlue />
           <SignalYellow />
           <SignalRed /> */}
-          <Buttons change={changeColor} color={currentColorId} next={setNextColor} />
+          <Buttons change={changeColor} color={currentColorId} next={setNextColor} interval={setIntervalNext} flag={changeFlag}/>
         </div>
       </div>
     </div>
