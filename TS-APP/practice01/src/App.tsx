@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import ReactDOM from 'react-dom'
 import './App.css';
 import { SignalRed, SignalBlue, SignalYellow, Buttons, Signal, Signals } from './component/index'
@@ -18,14 +18,18 @@ function App() {
   const [dataset, setDataset] = useState(defaultDataset);
   // 色の組み合わせ
   // const [colorSet, setColorSet] = useState(dataset["init"].colorSet);
+  // flag
+  const [flag, setFlag] = useState(false);
 
   // コンポーネントがマウント(配置)された直後に呼び出されるメソッド => ounting(マウント時)
   useEffect(() => {
-    // setColorSet(dataset['init'].colorSet)
-    setCurrentColorId('init')
+    // setCurrentColorId('init')
   }, [])
 
+  // デバッグ
   console.log(currentColorId)
+  console.log(flag)
+
   // console.log(dataset[currentColorId].colorSet)
 
   // colorSetを変える関数(typescriptの型付けが原因のエラーを回避するため。後で消す) 
@@ -65,6 +69,15 @@ function App() {
     }
   }
 
+  // Flagを子要素で変更できるようにするための関数
+  const changeFlag = () => {
+    setFlag(true)
+  }
+
+  // 何回もsetIntervalが実行されている？？？？？
+  const setIntervalNext = setInterval(()=>setNextColor(currentColorId), 5000);
+  // useCallback使ってみる
+  // const setIntervalNext = useCallback(() => setInterval(()=>setNextColor(currentColorId), 5000),[flag])
 
   return (
     <div className="App">
@@ -79,7 +92,7 @@ function App() {
           {/* <SignalBlue />
           <SignalYellow />
           <SignalRed /> */}
-          <Buttons color={currentColorId} next={setNextColor} />
+          <Buttons color={currentColorId} next={setNextColor} interval={setIntervalNext} flag={changeFlag}/>
         </div>
       </div>
     </div>
