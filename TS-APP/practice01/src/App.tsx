@@ -13,67 +13,55 @@ import red from './assets/img/red_signal.png';
 
 function App() {
   // 現在のカラーのid, init/blue_light/yellow_light/red_light
-  const [currentColorId, setCurrentColorId] = useState('blue_light');
+  const [currentColorId, setCurrentColorId] = useState<string>('blue_light');
   // dataset
   const [dataset, setDataset] = useState(defaultDataset);
   // 色の組み合わせ
-  const [colorSet, setColorSet] = useState(dataset["init"].colorSet);
+  // const [colorSet, setColorSet] = useState(dataset["init"].colorSet);
 
   // コンポーネントがマウント(配置)された直後に呼び出されるメソッド => ounting(マウント時)
   useEffect(() => {
-    setColorSet(dataset['init'].colorSet)
+    // setColorSet(dataset['init'].colorSet)
+    setCurrentColorId('init')
   }, [])
 
   console.log(currentColorId)
   // console.log(dataset[currentColorId].colorSet)
 
   // colorSetを変える関数(typescriptの型付けが原因のエラーを回避するため。後で消す) 
-  const changeColor = (currentColorId: string) => {
-    switch (true) {
-      case (currentColorId === 'blue_light'):
-        setColorSet(dataset["blue_light"].colorSet)
-        break;
-      case (currentColorId === 'red_light'):
-        setColorSet(dataset["red_light"].colorSet)
-        break;
-      case (currentColorId === 'yellow_light'):
-        setColorSet(dataset["yellow_light"].colorSet)
-        break;
-      default:
-        setColorSet(dataset["init"].colorSet)
-    }
-  }
-
-  // 前回の色から次の色へと信号を変える関数
-  // const setNextColor = (previousColorId: string) => {
-  //   if (previousColorId === "blue_light") {
-  //     setCurrentColorId('yellow_light')
-  //     changeColor(currentColorId)
-  //   }
-  //   else if (previousColorId === "red_light") {
-  //     setCurrentColorId('blue_light')
-  //     changeColor(currentColorId)
-  //   }
-  //   else if (previousColorId === "yellow_light") {
-  //     changeColor(currentColorId)
+  // const changeColor = (currentColorId: string) => {
+  //   switch (true) {
+  //     case (currentColorId === 'blue_light'):
+  //       setColorSet(dataset["blue_light"].colorSet)
+  //       break;
+  //     case (currentColorId === 'red_light'):
+  //       setColorSet(dataset["red_light"].colorSet)
+  //       break;
+  //     case (currentColorId === 'yellow_light'):
+  //       setColorSet(dataset["yellow_light"].colorSet)
+  //       break;
+  //     default:
+  //       setColorSet(dataset["init"].colorSet)
   //   }
   // }
+
   const setNextColor = (previousColorId: string) => {
     switch (true) {
       case (previousColorId === "blue_light"):
         setCurrentColorId('yellow_light')
-        changeColor(currentColorId)
+        // changeColor(currentColorId)
         break;
       case (previousColorId === "red_light"):
         setCurrentColorId('blue_light')
-        changeColor(currentColorId)
+        // changeColor(currentColorId)
         break;
       case (previousColorId === "yellow_light"):
         setCurrentColorId('red_light')
-        changeColor(currentColorId)
+        // changeColor(currentColorId)
         break;
       default:
-        changeColor("init")
+        setCurrentColorId('init')
+        // changeColor("init")
     }
   }
 
@@ -85,13 +73,13 @@ function App() {
       </header>
       <div className="signal-wrap">
         <div className="signal_flex">
-          <Signal color={colorSet[0]} />
-          <Signal color={colorSet[1]} />
-          <Signal color={colorSet[2]} />
+          <Signal color={dataset[currentColorId].colorSet[0]} />
+          <Signal color={dataset[currentColorId].colorSet[1]} />
+          <Signal color={dataset[currentColorId].colorSet[2]} />
           {/* <SignalBlue />
           <SignalYellow />
           <SignalRed /> */}
-          <Buttons change={changeColor} color={currentColorId} next={setNextColor} />
+          <Buttons color={currentColorId} next={setNextColor} />
         </div>
       </div>
     </div>
