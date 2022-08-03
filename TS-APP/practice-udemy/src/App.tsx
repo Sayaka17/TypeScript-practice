@@ -169,7 +169,7 @@ const gen7 = funcGen2({price:10})
 
 // アロー関数で書いてみる
 const funcGen3 = <T extends Props>(props: T)=> {
-  return {value: props.value}
+  return {value: props.price}
 }
 
 // debug
