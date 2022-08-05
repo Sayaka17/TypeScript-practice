@@ -2,7 +2,9 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Data from "./data.json";
-import TestComponent from "./TestComponent";
+// import TestComponent from "./TestComponent";
+// import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+// import Hello from "./Hello";
 
 // jsonのデータ型推定してくれるので非常に便利です！！
 type USERS = typeof Data;
@@ -186,9 +188,7 @@ console.log(func1(2, 3));
 const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <TestComponent test="Hello From Typescript" />
-      </header>
+      <header className="App-header">Header</header>
     </div>
   );
 };

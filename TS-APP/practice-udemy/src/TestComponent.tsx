@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./App.css";
 
 // 引数の型定義
 interface Props {
@@ -20,7 +21,7 @@ const TestComponent: React.FC<Props> = (props) => {
     setInputData(e.target.value);
   };
   return (
-    <div>
+    <div className="App App-header">
       <h1>{props.test}</h1>
       <h1>{count}</h1>
       <input type="text" value={inputData} onChange={handleInputChange} />
