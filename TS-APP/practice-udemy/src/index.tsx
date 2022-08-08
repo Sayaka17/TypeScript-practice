@@ -12,10 +12,31 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <BrowserRouter>
+    <div className="App ul-header App-link">
+      <ul>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/hello">Hello</a>
+        </li>
+        <li>
+          <a href="/test">Test Component</a>
+        </li>
+      </ul>
+    </div>
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/hello" element={<Hello hello="Hello" />} />
-      <Route path="/test" element={<TestComponent test="testComponent" />} />
+      <Route path="/test" element={<TestComponent test="Test Component" />} />
+      <Route
+        path="/*"
+        element={
+          <div className="App App-header">
+            <p>404 Not Found</p>
+          </div>
+        }
+      />
     </Routes>
   </BrowserRouter>
 );

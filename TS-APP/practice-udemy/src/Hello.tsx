@@ -8,8 +8,8 @@ interface Props {
 
 const Hello: React.FC<Props> = (props) => {
   return (
-    <div className="App">
-      <h1 className="App-header">{props.hello}</h1>
+    <div className="App App-header">
+      <h1>{props.hello} Component</h1>
     </div>
   );
 };

@@ -187,8 +187,10 @@ console.log(func1(2, 3));
 // React.FC: ReactのFunction Component。関数コンポーネントのこと
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">Header</header>
+    <div className="App App-header">
+      <header>
+        <h1>Home</h1>
+      </header>
     </div>
   );
 };
